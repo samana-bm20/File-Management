@@ -1,0 +1,30 @@
+# .gitignore
+
+# Node.js / Backend
+/file-server/node_modules
+/file-server/.env
+/file-server/.npm
+/file-server/*.log
+
+# Frontend (React, Angular, Vue, etc.)
+/file-client/node_modules
+/file-client/.env
+/file-client/build
+/file-client/.cache
+/file-client/*.log
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE-specific files
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Miscellaneous
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
