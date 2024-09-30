@@ -23,14 +23,10 @@ const storage = multer.diskStorage({
   },
 });
 
-// Initialize multer with the defined storage configuration
 const upload = multer({ storage: storage });
 
-// Routes
 app.post('/upload', upload.single('file'), (req, res) => {
   try {
-    // File has been successfully uploaded
-    console.log(`File uploaded: ${req.file.originalname}`);
     res.status(200).json({ message: 'File uploaded successfully!', file: req.file });
   } catch (error) {
     console.error('Error while uploading file:', error);
@@ -38,24 +34,25 @@ app.post('/upload', upload.single('file'), (req, res) => {
   }
 });
 
-// app.get('/files', (req, res) => {
-//   fs.readdir('uploads/', (err, files) => {
-//     if (err) {
-//       return res.status(500).send(err);
-//     }
-//     res.json(files.map(file => ({ name: file, path: `/uploads/${file}` })));
-//   });
-// });
+app.get('/files', (req, res) => {
+  fs.readdir('uploads/', (err, files) => {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    res.json(files.map(file => ({ name: file, path: `uploads/${file}` })));
+  });
+});
 
-// app.delete('/delete/:filename', (req, res) => {
-//   const filePath = path.join('uploads', req.params.filename);
-//   fs.unlink(filePath, err => {
-//     if (err) {
-//       return res.status(500).send(err);
-//     }
-//     res.sendStatus(200);
-//   });
-// });
+app.delete('/delete/:filePath', (req, res) => {
+  const filePath =decodeURIComponent(req.params.filePath);
+  const fullFilePath = path.join(__dirname, filePath);
+  fs.unlink(fullFilePath, err => {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    res.sendStatus(200);
+  });
+});
 
 
 app.listen(PORT, () => {
